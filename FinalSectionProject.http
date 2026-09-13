@@ -5,3 +5,13 @@ Accept: application/json
 
 ###
  
+POST  {{FinalSectionProject_HostAddress}}/api/articles
+Authorization: Basic marly:frund
+Content-Type: application/json
+
+{
+    "title": "Docker for cloud native programming",
+    "excerpt": "Docker simplify not only developement, but also deployment",
+    "content": "With docker developer no longer have to worry about system architecture",
+    "author": "marly frund"
+}

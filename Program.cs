@@ -1,3 +1,4 @@
+using System.Text;
 using System.Text.Json;
 using FinalSectionProject.Models;
 
@@ -18,33 +19,27 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-/*app.UseWhen(context => !context.Request.Method.Equals("Get"), 
-(app) => app.Use(async(context, next) =>
-{   
-    var auth = context.Request.Headers.Authorization;
-    if(string.IsNullOrWhiteSpace(auth))
-    {
-        Console.WriteLine("request not supported, only get");
-        context.Response.StatusCode = 401;
-        await context.Response.WriteAsync("invalid request, try again.");
-        return;
-    }
-    await next.Invoke();
-})
-);*/
+string[] authorizedAuthors = ["alice:jones", "philippe:boniface", "marly:frund"];
 app.Use(async(context, next) =>
 {
     var requestMethod = context.Request.Method.ToLower();
-    bool condition = requestMethod.Equals("post") || requestMethod.Equals("put");
+    bool condition = requestMethod.Equals("post") || requestMethod.Equals("put") 
+    || requestMethod.Equals("delete");
+
     if (condition)
     {
-        
+        var auth = context.Request.Headers.Authorization.ToString().Split(" ");
+        var credentials =  Encoding.UTF8.GetString(Convert.FromBase64String(auth[1]));
+        if (!authorizedAuthors.Contains(credentials))
+        {
+            context.Response.StatusCode = 401;
+            await context.Response.WriteAsync("you are not an author");
+            return;
+        }
     }
     await next.Invoke(context);
 });
-/*
-    ARTICLES CRUD OPERATIONS
-*/
+
 var articles = new List<Article>
 {
     new Article {
@@ -123,17 +118,3 @@ record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
 {
     public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
 }
-/**
- {
-    "title": "Learn linux operating system",
-    "excerpt": "Should you learn linux",
-    "content": "Linux is a really important operating system",
-    "author": "marly frund"
-  },
-  {
-    "title": "Docker for cloud native programming",
-    "excerpt": "Docker simplify not only developement, but also deployment",
-    "content": "With docker developer no longer have to worry about system architecture",
-    "author": "marly frund"
-  }
-*/
