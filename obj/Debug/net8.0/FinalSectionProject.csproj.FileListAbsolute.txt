@@ -31,3 +31,4 @@
 /home/jonathan098/Desktop/c#_container/FinalSectionProject/obj/Debug/net8.0/FinalSectionProject.pdb
 /home/jonathan098/Desktop/c#_container/FinalSectionProject/obj/Debug/net8.0/FinalSectionProject.genruntimeconfig.cache
 /home/jonathan098/Desktop/c#_container/FinalSectionProject/obj/Debug/net8.0/ref/FinalSectionProject.dll
+/home/jonathan098/Desktop/c#_container/FinalSectionProject/obj/Debug/net8.0/FinalSectionProject.sourcelink.json
